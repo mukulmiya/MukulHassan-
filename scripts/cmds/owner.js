@@ -44,7 +44,7 @@ const uptimeString = `${hours}h ${minutes}m`;
 const totalCommands = global.GoatBot.commands.size;
 
 const cardUrl = "https://i.imgur.com/5oG0Ohe.jpeg"; 
-const avatarUrl = "https://i.imgur.com/JvuHnS4.jpeg"; 
+const avatarUrl = "https://i.imgur.com/3ROoie7.jpeg"; 
 
 try {
 api.sendMessage("⏳ Generating Premium Owner Card...", threadID, messageID);
