@@ -5,29 +5,33 @@ module.exports = {
   config: {
     name: "bridge",
     aliases: ["br"],
-    version: "20.0.0",
+    version: "24.0.0",
     author: "Milon Hasan",
     countDown: 1,
     role: 0,
-    shortDescription: "Ultra Fast Bridge with Full Group List",
+    shortDescription: "Perfect Bridge with GCInfo Participant Logic",
     category: "Communication",
     guide: { en: "{pn} list | Reply with [Number] [Message]" }
   },
 
   onStart: async function ({ api, event, args, message }) {
     const { threadID } = event;
+    const botID = api.getCurrentUserID();
 
-    // --- 1. SHOW FULL GROUP LIST (ULTRA FAST) ---
     if (args[0] === "list") {
       try {
-        // Increased limit to 500 to ensure all groups are fetched
-        const list = await api.getThreadList(500, null, ["INBOX"]);
-        let msg = "┏━━━━━━❰ 🏢 GROUP LIST ❱━━━━━━┓\n\n";
+        // Fetching thread list from inbox
+        const list = await api.getThreadList(200, null, ["INBOX"]);
+        let msg = "┏━━━━━━❰ 🏢 ACTIVE GROUPS ❱━━━━━━┓\n\n";
         let count = 1;
         const groupData = [];
 
         for (const item of list) {
-          if (item.isGroup && item.threadID !== threadID) {
+          // --- Logic from gcinfo file ---
+          // 1. Must be a group
+          // 2. Must not be the group where the command is used
+          // 3. Bot MUST be a participant (Checks if Bot ID is in the list)
+          if (item.isGroup && item.threadID !== threadID && item.participantIDs.includes(botID)) {
             msg += `${count}. 🏷️ ${item.name || "Unnamed Group"}\n\n`;
             groupData.push({
               index: count,
@@ -37,7 +41,7 @@ module.exports = {
           }
         }
 
-        if (count === 1) return message.reply("❌ No other groups found!");
+        if (count === 1) return message.reply("❌ No active groups found where the bot is a member.");
 
         msg += "┗━━━━━━━━━━━━━━━━━━━━━━┛\n💡 Reply with '[Number] [Message]' to connect.";
         
@@ -50,11 +54,11 @@ module.exports = {
           });
         });
       } catch (err) {
-        return message.reply("❌ Error: Failed to fetch group list quickly.");
+        return message.reply("❌ Error: Failed to load group list.");
       }
     }
     
-    return message.reply("⚠️ Use '.bridge list' to see all available groups.");
+    return message.reply("⚠️ Use '.bridge list' to see active groups.");
   },
 
 /* --- [ 🔐 INTERNAL_SECURE_METADATA ] ---
@@ -69,7 +73,6 @@ module.exports = {
     const { threadID, messageID, senderID, body, attachments } = event;
     const senderName = await usersData.getName(senderID);
 
-    // --- CASE 1: Quick Reply to Group List ---
     if (Reply.type === "listReply") {
       const input = body.split(" ");
       const serial = parseInt(input[0]);
@@ -78,7 +81,7 @@ module.exports = {
       const targetGroup = Reply.groupData.find(g => g.index === serial);
       if (!targetGroup) return; 
 
-      if (!content) return message.reply("⚠️ Please enter a message after the number.\nExample: '1 Hello'");
+      if (!content) return message.reply("⚠️ Please enter a message after the number.");
 
       const formMessage = {
         body: `🔗 Milon connected group admin\n━━━━━━━━━━━━━━━━━━\n👤 From: ${senderName}\n💬 Message: ${content}\n━━━━━━━━━━━━━━━━━━\n(Reply to this message to send back!)`,
@@ -86,7 +89,7 @@ module.exports = {
       };
 
       return api.sendMessage(formMessage, targetGroup.threadID, (err, info) => {
-        if (err) return message.reply("❌ Failed to bridge. Bot might be kicked.");
+        if (err) return message.reply("❌ Error: Message failed. Bot might not be in this group.");
         global.GoatBot.onReply.set(info.messageID, {
           commandName: this.config.name,
           type: "bridgeChat",
@@ -94,11 +97,10 @@ module.exports = {
           backToTID: threadID,
           backToMID: messageID
         });
-        message.reply(`✅ Connected! Message sent to group #${serial}`);
+        message.reply(`✅ Connected to group #${serial}`);
       });
     }
 
-    // --- CASE 2: Continuous Bridge Chat ---
     if (Reply.type === "bridgeChat") {
       const sendToTID = (threadID == Reply.backToTID) ? Reply.targetMessageID : Reply.backToTID;
       const replyToMID = (threadID == Reply.backToTID) ? Reply.targetMessageID : Reply.backToMID;
