@@ -1,4 +1,4 @@
-<img src="https://i.imgur.com/NrRtvWM.gif" alt="banner">
+<img src="https://i.imgur.com/5XqYnC7.jpeg" alt="banner">
 <h1 align="center"><img src="./dashboard/images/logo-non-bg.png" width="22px">   𝗠𝗘𝗦𝗦𝗘𝗡𝗚𝗘𝗥 𝗖𝗛𝗔𝗧 𝗕𝗢𝗧</h1>
 <!-- Github README -->
 
