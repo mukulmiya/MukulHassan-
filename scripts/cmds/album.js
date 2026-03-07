@@ -6,7 +6,7 @@ module.exports = {
   config: {
     name: "album",
     aliases: ["list", "vidlist"],
-    version: "9.1.0",
+    version: "9.2.0",
     author: "Milon",
     countDown: 5,
     role: 0,
@@ -24,7 +24,8 @@ module.exports = {
       "hot", "sex", "couple", "crush", "relationship",
       "funny", "meme", "troll", "prank", "gaming",
       "pubg", "freefire", "gamer", "anime", "animegirl",
-      "animeboy", "nature", "sunset", "rain", "aesthetic"
+      "animeboy", "nature", "sunset", "rain", "aesthetic",
+      "dj", "car", "bandari", "pukee"
     ];
 
     // --- ADD VIDEO SECTION ---
@@ -59,7 +60,7 @@ module.exports = {
     } else if (page === 2) {
       listMsg = `╭─❍ 𝐀𝐋𝐁𝐔𝐌 𝐕𝐈𝐃𝐄𝐎 𝐋𝐈𝐒𝐓 ❍─╮\n\n✦ 11. 𝐑𝐞𝐥𝐚𝐭𝐢𝐨𝐧𝐬𝐡𝐢𝐩 💞\n✦ 12. 𝐅𝐮𝐧𝐧𝐲 😂\n✦ 13. 𝐌𝐞𝐦𝐞 🤣\n✦ 14. 𝐓𝐫𝐨𝐥𝐥 😈\n✦ 15. 𝐏𝐫𝐚𝐧𝐤 🎭\n✦ 16. 𝐆𝐚𝐦𝐢𝐧𝐠 🎮\n✦ 17. 𝐏𝐮𝐛𝐠 🔫\n✦ 18. 𝐅𝐫𝐞𝐞𝐟𝐢𝐫𝐞 🔥\n✦ 19. 𝐆𝐚𝐦𝐞𝐫 🕹️\n✦ 20. 𝐀𝐧𝐢𝐦𝐞 🌸\n\n╰──❍ 𝐏𝐚𝐠𝐞 : 2/3 ❍──╯\n💬 Reply number or type '.album 3'`;
     } else {
-      listMsg = `╭─❍ 𝐀𝐋𝐁𝐔𝐌 𝐕𝐈𝐃𝐄𝐎 𝐋𝐈𝐒𝐓 ❍─╮\n\n✦ 21. 𝐀𝐧𝐢𝐦𝐞𝐠𝐢𝐫𝐥 👧\n✦ 22. 𝐀𝐧𝐢𝐦𝐞𝐛𝐨𝐲 👦\n✦ 23. 𝐍𝐚𝐭𝐮𝐫𝐞 🌿\n✦ 24. 𝐒𝐮𝐧𝐬𝐞𝐭 🌅\n✦ 25. 𝐑𝐚𝐢𝐧 🌧️\n✦ 26. 𝐀𝐞𝐬𝐭𝐡𝐞𝐭𝐢𝐜 ✨\n\n╰──❍ 𝐏𝐚𝐠𝐞 : 3/3 ❍──╯\n💬 Reply number or type '.album 1'`;
+      listMsg = `╭─❍ 𝐀𝐋𝐁𝐔𝐌 𝐕𝐈𝐃𝐄𝐎 𝐋𝐈𝐒𝐓 ❍─╮\n\n✦ 21. 𝐀𝐧𝐢𝐦𝐞𝐠𝐢𝐫𝐥 👧\n✦ 22. 𝐀𝐧𝐢𝐦𝐞𝐛𝐨𝐲 👦\n✦ 23. 𝐍𝐚𝐭𝐮𝐫𝐞 🌿\n✦ 24. 𝐒𝐮𝐧𝐬𝐞𝐭 🌅\n✦ 25. 𝐑𝐚𝐢𝐧 🌧️\n✦ 26. 𝐀𝐞𝐬𝐭𝐡𝐞𝐭𝐢𝐜 ✨\n✦ 27. 𝐃𝐉 🎧\n✦ 28. 𝐂𝐚𝐫 🏎️\n✦ 29. 𝐁𝐚𝐧𝐝𝐚𝐫𝐢 🥁\n✦ 30. 𝐏𝐮𝐤𝐞𝐞 🔞\n\n╰──❍ 𝐏𝐚𝐠𝐞 : 3/3 ❍──╯\n💬 Reply number or type '.album 1'`;
     }
 
     return api.sendMessage(listMsg, threadID, (err, info) => {
@@ -80,7 +81,8 @@ module.exports = {
       "7": "hot", "8": "sex", "9": "couple", "10": "crush", "11": "relationship",
       "12": "funny", "13": "meme", "14": "troll", "15": "prank", "16": "gaming",
       "17": "pubg", "18": "freefire", "19": "gamer", "20": "anime", "21": "animegirl",
-      "22": "animeboy", "23": "nature", "24": "sunset", "25": "rain", "26": "aesthetic"
+      "22": "animeboy", "23": "nature", "24": "sunset", "25": "rain", "26": "aesthetic",
+      "27": "dj", "28": "car", "29": "bandari", "30": "pukee"
     };
 
     const selected = categories[body];
