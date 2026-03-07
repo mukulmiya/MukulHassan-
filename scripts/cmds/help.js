@@ -1,129 +1,104 @@
-const axios = require("axios");
-const { getPrefix } = global.utils;
-const { commands } = global.GoatBot;
-
-let xfont = null;
-let yfont = null;
-let categoryEmoji = null;
-
-async function loadResources() {
-  try {
-    const [x, y, c] = await Promise.all([
-      axios.get("https://raw.githubusercontent.com/Saim-x69x/sakura/main/xfont.json"),
-      axios.get("https://raw.githubusercontent.com/Saim-x69x/sakura/main/yfont.json"),
-      axios.get("https://raw.githubusercontent.com/Saim-x69x/sakura/main/category.json")
-    ]);
-    xfont = x.data;
-    yfont = y.data;
-    categoryEmoji = c.data;
-  } catch (e) {
-    console.error("[HELP] Resource load failed");
-  }
-}
-
-function fontConvert(text, type = "command") {
-  const map = type === "category" ? xfont : yfont;
-  if (!map) return text;
-  return text.split("").map(c => map[c] || c).join("");
-}
-
-function getCategoryEmoji(cat) {
-  return categoryEmoji?.[cat.toLowerCase()] || "⦿";
-}
-
-function roleText(role) {
-  if (role === 0) return "👤 User";
-  if (role === 1) return "👑 Group Admin";
-  if (role === 2) return "🤖 Bot Admin";
-  return "Unknown";
-}
-
-function findCommand(name) {
-  name = name.toLowerCase();
-  for (const [, cmd] of commands) {
-    const a = cmd.config?.aliases;
-    if (cmd.config?.name === name) return cmd;
-    if (Array.isArray(a) && a.includes(name)) return cmd;
-    if (typeof a === "string" && a === name) return cmd;
-  }
-  return null;
-}
+const fs = require("fs-extra");
+const path = require("path");
 
 module.exports = {
-  config: {
-    name: "help",
-    aliases: ["menu"],
-    version: "2.5",
-    author: "Saimx69x | fixed milon",
-    role: 0,
-    category: "info",
-    shortDescription: "Show all commands in one list",
-    guide: {
-      en: "{pn} or {pn} [command]"
-    }
-  },
+	config: {
+		name: "help",
+		aliases: ["menu", "commands"],
+		version: "4.8",
+		author: "NeoKEX",
+		shortDescription: "Show all available commands",
+		longDescription: "Displays a clean and premium-styled categorized list of commands.",
+		category: "system",
+		guide: "{pn}help [command name]"
+	},
 
-  onStart: async function ({ message, args, event, role }) {
-    if (!xfont || !yfont || !categoryEmoji) await loadResources();
+	onStart: async function ({ message, args, prefix }) {
+		const allCommands = global.GoatBot.commands;
+		const categories = {};
 
-    const prefix = getPrefix(event.threadID);
-    const input = args.join(" ").trim();
+		const emojiMap = {
+			ai: "➥", "ai-image": "➥", group: "➥", system: "➥",
+			fun: "➥", owner: "➥", config: "➥", economy: "➥",
+			media: "➥", "18+": "➥", tools: "➥", utility: "➥",
+			info: "➥", image: "➥", game: "➥", admin: "➥",
+			rank: "➥", boxchat: "➥", others: "➥"
+		};
 
-    // Collect all commands and group by category
-    const categoriesMap = {};
-    for (const [name, cmd] of commands) {
-      if (!cmd?.config || cmd.config.role > role) continue;
-      const cat = (cmd.config.category || "UNCATEGORIZED").toLowerCase();
-      if (!categoriesMap[cat]) categoriesMap[cat] = [];
-      categoriesMap[cat].push(name);
-    }
+		const cleanCategoryName = (text) => {
+			if (!text) return "others";
+			return text
+				.normalize("NFKD")
+				.replace(/[^\w\s-]/g, "")
+				.replace(/\s+/g, " ")
+				.trim()
+				.toLowerCase();
+		};
 
-    /* ───── Single Command Info View ───── */
-    if (input) {
-      const cmd = findCommand(input);
-      if (cmd) {
-        const c = cmd.config;
-        let usage = "No usage guide";
-        if (c.guide) {
-          usage = typeof c.guide === "object" ? (c.guide.en || Object.values(c.guide)[0]) : c.guide;
-          usage = usage.replace(/{pn}/g, `${prefix}${c.name}`);
-        }
+		for (const [name, cmd] of allCommands) {
+			const cat = cleanCategoryName(cmd.config.category);
+			if (!categories[cat]) categories[cat] = [];
+			categories[cat].push(cmd.config.name);
+		}
 
-        const infoMsg = `⚡️ 𝗖𝗢𝗠𝗠𝗔𝗡𝗗 𝗜𝗡𝗙𝗢 ⚡️
-━━━━━━━━━━━━━━━━━━
-🗡️ 𝗡𝗮𝗺𝗲 » ${c.name}
-📝 𝗗𝗲𝘀𝗰 » ${c.longDescription || c.shortDescription || "N/A"}
-🧩 𝗨𝘀𝗮𝗴𝗲 » ${usage}
-📦 𝗖𝗮𝘁𝗲𝗴𝗼𝗿𝘆 » ${c.category.toUpperCase()}
-⏱️ 𝗖𝗼𝗼𝗹𝗱𝗼𝘄𝗻 » ${c.countDown || 5}s
-🔒 𝗣𝗲𝗿𝗺𝗶𝘀𝘀𝗶𝗼𝗻 » ${roleText(c.role)}
-✨ 𝗖𝗿𝗲𝗱𝗶𝘁𝘀 » ${c.author || "𝗠𝗶𝗹𝗼𝗻 𝗛𝗮𝘀𝗮𝗻"}`;
 
-        return message.reply(infoMsg);
-      }
-    }
+		if (args[0]) {
+			const query = args[0].toLowerCase();
+			const cmd =
+				allCommands.get(query) ||
+				[...allCommands.values()].find((c) => (c.config.aliases || []).includes(query));
+			if (!cmd) return message.reply(`❌ Command "${query}" not found.`);
 
-    /* ───── All Commands List (No Page) ───── */
-    let msg = `✨ 𝗠 𝗜 𝗟 𝗢 𝗡 ✦  𝗖 𝗢 𝗠 𝗠 𝗔 𝗡 𝗗 𝗦 ✨\n`;
-    msg += `✧･ﾟ: *✧･ﾟ:* ༻ ༺ *:･ﾟ✧*:･ﾟ✧\n\n`;
+			const {
+				name,
+				version,
+				author,
+				guide,
+				category,
+				shortDescription,
+				longDescription,
+				aliases,
+				role 
+			} = cmd.config;
 
-    const sortedCategories = Object.keys(categoriesMap).sort();
+			const desc =
+				typeof longDescription === "string"
+					? longDescription
+					: longDescription?.en || shortDescription?.en || shortDescription || "No description";
 
-    for (const cat of sortedCategories) {
-      const catDisplay = fontConvert(cat.toUpperCase(), "category");
-      const emoji = getCategoryEmoji(cat);
-      const cmds = categoriesMap[cat].sort().map(n => fontConvert(n)).join(", ");
+			const usage =
+				typeof guide === "string"
+					? guide.replace(/{pn}/g, prefix)
+					: guide?.en?.replace(/{pn}/g, prefix) || `${prefix}${name}`;
 
-      msg += `${emoji} ━━━━『 ${catDisplay} 』━━━━ ⦿\n`;
-      msg += `│  ${cmds}\n`;
-      msg += `✧･ﾟ: *✧･ﾟ:* *:･ﾟ✧*:･ﾟ✧\n\n`;
-    }
+						const requiredRole = cmd.config.role !== undefined ? cmd.config.role : 0; 
 
-    const totalCmds = Object.values(categoriesMap).reduce((a, b) => a + b.length, 0);
+			return message.reply(
+				`☠️ 𝗖𝗢𝗠𝗠𝗔𝗡𝗗 𝗜𝗡𝗙𝗢 ☠️\n\n` +
+				`➥ Name: ${name}\n` +
+				`➥ Category: ${category || "Uncategorized"}\n` +
+				`➥ Description: ${desc}\n` +
+				`➥ Aliases: ${aliases?.length ? aliases.join(", ") : "None"}\n` +
+				`➥ Usage: ${usage}\n` +
+				`➥ Permission: ${requiredRole}\n` + 
+				`➥ Author: ${author}\n` +
+				`➥ Version: ${version}`
+			);
+		}
 
-    msg += `🔰 𝗧𝗶𝗽: 𝗧𝘆𝗽𝗲 ${prefix}𝗵𝗲𝗹𝗽 [𝗰𝗼𝗺𝗺𝗮𝗻𝗱]\n\n`;
-    msg += `🗡️ 𝗖𝗢𝗠𝗠𝗔𝗡𝗗 𝗦𝗬𝗦𝗧𝗘𝗠 🗡️\n𝗧𝗼𝘁𝗮𝗹 𝗰𝗼𝗺𝗺𝗮𝗻𝗱𝘀 » ${totalCmds}\n𝗖𝗮𝘁𝗲𝗴𝗼𝗿𝗶𝗲𝘀 » ${sortedCategories.length}\n👑 Owner: 𝗠𝗶𝗹𝗼𝗻 𝗛𝗮𝘀𝗮𝗻`;
+		const formatCommands = (cmds) =>
+			cmds.sort().map((cmd) => `× ${cmd}`);
 
-    return message.reply(msg);
-  }
+		let msg = `━━━☠️ 𝗡𝗲𝗼𝗞𝗘𝗫 𝗔𝗜 ☠️━━━\n`;
+		const sortedCategories = Object.keys(categories).sort();
+		for (const cat of sortedCategories) {
+			const emoji = emojiMap[cat] || "➥";
+			msg += `\n╭──『 ${cat.toUpperCase()} 』\n`; 
+			msg += `${formatCommands(categories[cat]).join(' ')}\n`; 
+			msg += `╰────────────◊\n`;
+		}
+		msg += `\n➥ Use: ${prefix}help [command name] for details\n➥Use: ${prefix}callad to talk with bot admins '_'`;
+
+		return message.reply(msg);
+	}
 };
