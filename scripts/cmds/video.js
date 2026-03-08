@@ -1,78 +1,115 @@
+const { GoatWrapper } = require("fca-liane-utils");
 const axios = require("axios");
 const fs = require("fs-extra");
 const path = require("path");
 
 module.exports = {
-config: {
-name: "video",
-version: "2.2.0",
-author: "Milon",
-countDown: 5,
-role: 0,
-shortDescription: "Get YouTube video by name (No Prefix)",
-longDescription: "Search and download YouTube videos by name without any prefix",
-category: "media",
-guide: {
-en: "video <name>"
-}
-},
+  config: {
+    name: "video",
+    version: "2.2.2",
+    author: "Milon Pro",
+    countDown: 5,
+    role: 0,
+    shortDescription: "Search & download YouTube videos",
+    longDescription: "Search YouTube videos by name and download without prefix",
+    category: "media",
+    guide: {
+      en: "video <video name>"
+    }
+  },
 
-// এই ফাংশনটি প্রিফিক্স ছাড়া কাজ করতে সাহায্য করবে
-onChat: async function ({ api, event, message }) {
-const { body, threadID, messageID } = event;
-if (!body || !body.toLowerCase().startsWith("video ")) return;
+  onStart: async function ({ api, event, args }) {
+    const { threadID, messageID, body } = event;
+    const creatorName = "Milon Islam";
 
-const args = body.split(/\s+/);
-args.shift(); // 'video' লেখাটি বাদ দিয়ে বাকিটা কুয়েরি হিসেবে নিবে
-const query = args.join(" ");
+    let query = args.join(" ");
+    
+    // Handling No-prefix input
+    if (!query && body) {
+      query = body.replace(/^video\s+/i, "").trim();
+    }
 
-if (!query) return;
+    // Your requested English error message and example
+    if (!query || query.toLowerCase() === "video") {
+      return api.sendMessage(
+        `❌ Please provide a song name.\n📌 Example: video Let Me Love You`,
+        threadID,
+        messageID
+      );
+    }
 
-let loadingMsgID = null;
+    let tempMsgID = null;
 
-try {
-const loading = await api.sendMessage(`🔎 Searching for "${query}"...\n⏳ Please wait...`, threadID);
-loadingMsgID = loading.messageID;
+    try {
+      const searching = await api.sendMessage(
+        `🔍 Searching\n━━━━━━━━━━━━━━━\n📌 Query: ${query}\n⏳ Please wait...`,
+        threadID
+      );
+      tempMsgID = searching.messageID;
 
-const searchRes = await axios.get(`https://betadash-search-download.vercel.app/yt?search=${encodeURIComponent(query)}`);
-const video = searchRes.data[0];
+      // Searching using BetaDash API
+      const searchRes = await axios.get(
+        `https://betadash-search-download.vercel.app/yt?search=${encodeURIComponent(query)}`
+      );
 
-if (!video || !video.url) throw new Error("No video found.");
+      const video = searchRes.data?.[0];
+      if (!video || !video.url) throw new Error("No results found.");
 
-try { await api.unsendMessage(loadingMsgID); } catch(e) {}
+      await api.unsendMessage(tempMsgID).catch(() => {});
 
-const downloading = await api.sendMessage(`🎬 Found: ${video.title}\n⬇️ Downloading now...`, threadID);
-loadingMsgID = downloading.messageID;
+      const downloading = await api.sendMessage(
+        `🎬 Video Found\n━━━━━━━━━━━━━━━\n📖 Title: ${video.title}\n⬇️ Downloading...`,
+        threadID
+      );
+      tempMsgID = downloading.messageID;
 
-const dlRes = await axios.get(`https://yt-api-imran.vercel.app/api?url=${video.url}`);
-const downloadUrl = dlRes.data.downloadUrl;
-if (!downloadUrl) throw new Error("No download link received.");
+      // Getting download link using Imran API
+      const dlRes = await axios.get(
+        `https://yt-api-imran.vercel.app/api?url=${video.url}`
+      );
 
-const videoBuffer = (await axios.get(downloadUrl, { responseType: 'arraybuffer' })).data;
-const cachePath = path.join(__dirname, "cache");
-await fs.ensureDir(cachePath);
-const filePath = path.join(cachePath, `video_${Date.now()}.mp4`);
-await fs.writeFile(filePath, videoBuffer);
+      const downloadUrl = dlRes.data?.downloadUrl;
+      if (!downloadUrl) throw new Error("Download link not available.");
 
-const finalMessage = {
-body: `━━━━━━━━━━━━━━━━━━\n🎬 𝗧𝗶𝘁𝗹𝗲: ${video.title}\n⏱️ 𝗗𝘂𝗿𝗮𝘁𝗶𝗼𝗻: ${video.time}\n━━━━━━━━━━━━━━━━━━\n\n✅ Your video is ready!`,
-attachment: fs.createReadStream(filePath)
+      // Fetching the video buffer
+      const buffer = (
+        await axios.get(downloadUrl, { responseType: "arraybuffer" })
+      ).data;
+
+      const cacheDir = path.join(process.cwd(), "cache");
+      await fs.ensureDir(cacheDir);
+
+      const filePath = path.join(cacheDir, `video_${Date.now()}.mp4`);
+      await fs.writeFile(filePath, buffer);
+
+      const finalMessage = {
+        body:
+          `━━━━━━━━━━━━━━━━━━\n` +
+          `🎬 VIDEO READY\n` +
+          `━━━━━━━━━━━━━━━━━━\n` +
+          `📖 Title: ${video.title}\n` +
+          `⏱ Duration: ${video.time}\n` +
+          `🖌️ Power by: ${creatorName}\n` +
+          `━━━━━━━━━━━━━━━━━━`,
+        attachment: fs.createReadStream(filePath)
+      };
+
+      await api.sendMessage(finalMessage, threadID, async () => {
+        if (fs.existsSync(filePath)) await fs.unlink(filePath);
+      }, messageID);
+
+      if (tempMsgID) await api.unsendMessage(tempMsgID).catch(() => {});
+
+    } catch (err) {
+      if (tempMsgID) await api.unsendMessage(tempMsgID).catch(() => {});
+      api.sendMessage(
+        `❌ Failed\n━━━━━━━━━━━━━━━\n${err.message || "An unexpected error occurred."}`,
+        threadID,
+        messageID
+      );
+    }
+  }
 };
 
-await api.sendMessage(finalMessage, threadID, async () => {
-if (fs.existsSync(filePath)) await fs.unlinkSync(filePath);
-}, messageID);
-
-if (loadingMsgID) await api.unsendMessage(loadingMsgID);
-
-} catch (err) {
-if (loadingMsgID) try { await api.unsendMessage(loadingMsgID); } catch (e) {}
-api.sendMessage(`❌ Error: ${err.message || "Something went wrong!"}`, threadID, messageID);
-}
-},
-
-// এটি খালি রাখা হয়েছে যাতে help লিস্টে কমান্ডটি দেখায়
-onStart: async function ({ api, event }) {
-api.sendMessage("অনুগ্রহ করে 'video <নাম>' এভাবে লিখে ভিডিও সার্চ করুন (কোনো প্রিফিক্স লাগবে না)।", event.threadID, event.messageID);
-}
-};
+const wrapper = new GoatWrapper(module.exports);
+wrapper.applyNoPrefix({ allowPrefix: true });
