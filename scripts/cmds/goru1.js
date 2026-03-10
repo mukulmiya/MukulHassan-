@@ -5,7 +5,7 @@ const { createCanvas, loadImage } = require("canvas");
 
 module.exports = {
   config: {
-    name: "goru",
+    name: "goru1",
     version: "2.3",
     author: "ARIJIT × Ere'rious", // Don't change author name
     countDown: 5,
