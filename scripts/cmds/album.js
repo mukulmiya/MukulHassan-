@@ -7,11 +7,11 @@ module.exports = {
     name: "album",
     aliases: ["list", "vidlist"],
     version: "9.2.0",
-    author: "Milon",
+    author: "Siyam Hasan",
     countDown: 5,
     role: 0,
     category: "media",
-    shortDescription: { en: "Multi-page video album for Milon" },
+    shortDescription: { en: "Multi-page video album for Siyam Hasan" },
     guide: { en: "{pn} | {pn} 2 | {pn} 3 | Reply video: {pn} add <category>" }
   },
 
@@ -30,7 +30,8 @@ module.exports = {
 
     // --- ADD VIDEO SECTION ---
     if (args[0] === "add") {
-      if (senderID != "61586540721576") return api.sendMessage("❌ | Only Milon can add videos!", threadID, messageID);
+      if (senderID != "61568411310748") 
+        return api.sendMessage("❌ | Only Siyam Hasan can add videos!", threadID, messageID);
       
       const category = args[1]?.toLowerCase();
       if (!allowedCategories.includes(category)) {
@@ -89,7 +90,7 @@ module.exports = {
     if (!selected) return;
 
     api.unsendMessage(Reply.messageID);
-    api.sendMessage(`⏳ | Loading '${selected.toUpperCase()}' video for you, Milon...`, threadID, messageID);
+    api.sendMessage(`⏳ | Loading '${selected.toUpperCase()}' video for you, Siyam Hasan...`, threadID, messageID);
 
     try {
       const pathData = path.join(process.cwd(), "scripts", "cmds", "album_data.json");
