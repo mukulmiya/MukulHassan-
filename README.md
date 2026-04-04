@@ -2,7 +2,7 @@
 <img src="https://files.catbox.moe/41hfau.jpg" alt="banner">
 
 <!-- Bot & Owner Info Section -->
-<h1 align="center"><img src="./dashboard/images/logo-non-bg.png" width="22px">   𝑺𝒊𝒚𝒂𝒎 𝑪𝒉𝒂𝒕 𝑩𝒐𝒕</h1>
+<h1 align="center"><img src="./dashboard/images/logo-non-bg.png" width="22px">   𝑺𝒊𝒚𝒂𝒎 𝑪𝒉𝗮𝘁 𝑩𝗼𝘁</h1>
 
 <!-- Badges / Profile Intro -->
 <p align="center">
@@ -28,7 +28,7 @@
   </tr>
   <tr>
     <th>Bot Name</th>
-    <td>𝑺𝒊𝒚𝒂𝒎 𝑪𝒉𝒂𝒕 𝑩𝒐𝒕</td>
+    <td>𝑺𝒊𝒚𝒂𝒎 𝑪𝒉𝗮𝘁 𝑩𝗼𝘁</td>
   </tr>
   <tr>
     <th>Age</th>
@@ -56,15 +56,15 @@
   </tr>
   <tr>
     <th>Facebook</th>
-    <td><a href="https://www.facebook.com/UDAY.HOSSEIN.SIYAM">UDAY.HOSSEIN.SIYAM</a></td>
+    <td><a href="https://www.facebook.com/profile.php?id=61568411310748">Facebook Profile</a></td>
   </tr>
   <tr>
     <th>Messenger</th>
-    <td><a href="m.me/UDAY.HOSSEIN.SIYAM">m.me/UDAY.HOSSEIN.SIYAM</a></td>
+    <td><a href="https://m.me/j/AbZI7bjXz2MoDQpa/?send_source=gc%3Acopy_invite_link_c">Messenger Link</a></td>
   </tr>
   <tr>
     <th>WhatsApp</th>
-    <td><a href="https://www.facebook.com/profile.php?id=61568411310748">+8801789138157</a></td>
+    <td><a href="https://wa.me/+8801934640061">+8801934640061</a></td>
   </tr>
   <tr>
     <th>Bot Prefix</th>
@@ -91,15 +91,23 @@
     <td>April 5th 2026</td>
   </tr>
   <tr>
+    <th>Uday Hasan Siyam-এর ফেমাস গ্রুপ</th>
+    <td style="background: linear-gradient(90deg, #ff0000, #0000ff); color: #ffffff; font-weight: bold; text-align: center; padding: 5px;">
+        <a href="https://m.me/j/AbZI7bjXz2MoDQpa/?send_source=gc%3Acopy_invite_link_c" style="color: #ffffff; text-decoration: none;">
+            Join My Famous Group 🔥
+        </a>
+    </td>
+  </tr>
+  <tr>
     <th>For Links</th>
-    <td> <!-- https://github.com/mdsiyam01325251695016080-maker/siyam-Hassan-.git --> </td>
+    <td> <!-- এখানে তুমি অন্য লিঙ্ক দিতে পারবে --> </td>
   </tr>
 </table>
 
 <!-- Status / Attitude Note -->
 <p align="center">
 ⊱༅༎😼💎༅༎⊱<br>
-আমি ভদ্র, কিন্তু কেউ আমাকে হালকাভাবে নিতে পারবে না ✌️<br>
-আমি যেটা চাই তা অর্জন করি, আর কারো চাপে কখনো চলি না 💥<br>
+আমি ভদ্র, কিন্তু সবাই আমাকে সম্মান করবে ✌️<br>
+আমি যা চাই তা অর্জন করি, আর কারো চাপ আমাকে থামাতে পারবে না 💥<br>
 ⊱༅༎😼💎༅༎⊱
 </p>
