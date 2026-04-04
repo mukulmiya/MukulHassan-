@@ -6,7 +6,7 @@ module.exports = {
   config: {
     name: "abdgen",
     aliases: ["abd"],
-    author: "SiFu",
+    author: "siyam",
     version: "1.0",
     cooldowns: 20,
     role: 0,
