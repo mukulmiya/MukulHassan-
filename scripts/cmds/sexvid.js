@@ -78,7 +78,7 @@ module.exports = {
 
       return api.sendMessage(
         {
-          body: "😈 Enjoy",
+          body: "🥵🫵পাপির দল হাত মারবি না কিন্তু 🥵🫵 না হলে বস সিয়াম কে বলে দিব 🫣🐍",
           attachment: await global.utils.getStreamFromURL(randomLink)
         },
         event.threadID,
@@ -87,7 +87,7 @@ module.exports = {
 
     } catch (err) {
       console.error(err);
-      return message.reply("❌ Video send korte problem hoise!");
+      return message.reply("❌ ⏳ দাঁড়া বস সিয়াম কে জিজ্ঞেস করে আসি!");
     }
   }
 };
