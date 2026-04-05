@@ -4,7 +4,7 @@ const moment = require("moment-timezone");
 const getStreamFromURL = global.utils.getStreamFromURL;
 
 const gifList = [
-"https://files.catbox.moe/9aw9dv.mp4",
+"https://files.catbox.moe/nkit0j.mp4",
 "https://files.catbox.moe/9aw9dv.mp4"
 ];
 
