@@ -34,7 +34,7 @@ module.exports = {
     const seconds = Math.floor(uptime % 60);
     const uptimeString = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
-    const videoLink = "https://files.catbox.moe/k3bmau.mp4";
+    const videoLink = "https://files.catbox.moe/4j7c2m.mp4";
 
     return message.reply({
       body: `
