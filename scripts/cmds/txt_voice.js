@@ -4,7 +4,7 @@ const path = require("path");
 
 module.exports = {
   config: {
-    name: "text_voice",
+    name: "txt_voice",
     version: "1.0.0",
     author: "MOHAMMAD AKASH",
     countDown: 5,
@@ -14,6 +14,7 @@ module.exports = {
     category: "noprefix",
   },
 
+  // 🩷 এখানে তোমার টেক্সট অনুযায়ী ভয়েস URL সেট করো
   onChat: async function ({ event, message }) {
     const { body } = event;
     if (!body) return;
@@ -21,25 +22,11 @@ module.exports = {
     const textAudioMap = {
       "i love you": "https://files.catbox.moe/npy7kl.mp3",
       "matha beta": "https://files.catbox.moe/5rdtc6.mp3",
-
-      // 🆕 তোমার দেওয়া সেটগুলো (clean করা)
-      "magi": "https://files.catbox.moe/ecgpak.mp4",
-      "মাগি": "https://files.catbox.moe/ecgpak.mp4",
-      "খানকি": "https://files.catbox.moe/ecgpak.mp4",
-      "khanki": "https://files.catbox.moe/ecgpak.mp4",
-
-      "siyam": "https://files.catbox.moe/hd993x.mp3",
-      "সিয়াম ভাই": "https://files.catbox.moe/hd993x.mp3",
-      "সিয়াম": "https://files.catbox.moe/hd993x.mp3",
-
-      "nijhum": "https://files.catbox.moe/3u6shs.mp3",
-      "niju": "https://files.catbox.moe/3u6shs.mp3",
-      "নিঝুম": "https://files.catbox.moe/3u6shs.mp3"
     };
 
     const key = body.trim().toLowerCase();
     const audioUrl = textAudioMap[key];
-    if (!audioUrl) return;
+    if (!audioUrl) return; // যদি টেক্সট মিলে না যায়, কিছু হবে না
 
     const cacheDir = path.join(__dirname, "cache");
     if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
@@ -77,3 +64,4 @@ module.exports = {
 
   onStart: async function () {},
 };
+      
