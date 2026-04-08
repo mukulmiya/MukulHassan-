@@ -20,7 +20,7 @@ module.exports = {
 
     const textAudioMap = {
       "মাদিহা": "https://files.catbox.moe/npy7kl.mp3",
-      "উদয়": "https://files.catbox.moe/5rdtc6.mp3",
+      "!মাথা গরম": "https://files.catbox.moe/5rdtc6.mp3",
 
       // 🆕 তোমার দেওয়া সেটগুলো (clean করা)
       "magi": "https://files.catbox.moe/ecgpak.mp4",
@@ -28,13 +28,21 @@ module.exports = {
       "খানকি": "https://files.catbox.moe/ecgpak.mp4",
       "khanki": "https://files.catbox.moe/ecgpak.mp4",
 
-      "siyam": "https://files.catbox.moe/hd993x.mp3",
-      "বন্ধু": "https://files.catbox.moe/w9doti.mp4",
-      "সিয়াম": "https://files.catbox.moe/hd993x.mp3",
+      "siyam": "https://files.catbox.moe/9w6moo.mp3",
+      "সিয়াম ভাই": "https://files.catbox.moe/9w6moo.mp3",
+      "সিয়াম ": "https://files.catbox.moe/9w6moo.mp3",
 
-      "Bby": "https://files.catbox.moe/cadneg.mp4",
+      "Nijhum": "https://files.catbox.moe/5myzdz.mp4",
       "@everyone": "https://files.catbox.moe/3u6shs.mp3",
-      "নিঝুম": "https://files.catbox.moe/7nkquw.mp4"
+      "নিঝুম": "https://files.catbox.moe/5myzdz.mp4",
+
+      // 🔥 নতুন ৬টা ইমোজি ট্রিগার
+      ",sex": "https://files.catbox.moe/uy7mrv.mp3",
+      ",hot": "https://files.catbox.moe/m5djca.mp3",
+      "s+n": "https://files.catbox.moe/w9doti.mp4",
+      "Love you siyam": "https://files.catbox.moe/e8ebel.mp3",
+      "আমি মাদিহা": "https://files.catbox.moe/9gyjwp.mp3",
+      "নুনু": "https://files.catbox.moe/r5uz42.mp3"
     };
 
     const key = body.trim().toLowerCase();
@@ -77,4 +85,3 @@ module.exports = {
 
   onStart: async function () {},
 };
-
