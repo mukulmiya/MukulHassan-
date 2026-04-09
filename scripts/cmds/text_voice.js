@@ -19,8 +19,8 @@ module.exports = {
     if (!body) return;
 
     const textAudioMap = {
-      "মাদিহা": "https://files.catbox.moe/npy7kl.mp3",
-      "!মাথা গরম": "https://files.catbox.moe/5rdtc6.mp3",
+      "কলি": "https://files.catbox.moe/s1k2nx.mp4",
+      "😈": "https://files.catbox.moe/5rdtc6.mp3",
 
       // 🆕 তোমার দেওয়া সেটগুলো (clean করা)
       "magi": "https://files.catbox.moe/ecgpak.mp4",
@@ -30,9 +30,9 @@ module.exports = {
 
       "siyam": "https://files.catbox.moe/9w6moo.mp3",
       "সিয়াম ভাই": "https://files.catbox.moe/9w6moo.mp3",
-      "সিয়াম ": "https://files.catbox.moe/9w6moo.mp3",
+      "সিয়াম": "https://files.catbox.moe/9w6moo.mp3",
 
-      "Nijhum": "https://files.catbox.moe/5myzdz.mp4",
+      "Nijhum":"https://files.catbox.moe/5myzdz.mp4",
       "@everyone": "https://files.catbox.moe/3u6shs.mp3",
       "নিঝুম": "https://files.catbox.moe/5myzdz.mp4",
 
@@ -40,7 +40,7 @@ module.exports = {
       ",sex": "https://files.catbox.moe/uy7mrv.mp3",
       ",hot": "https://files.catbox.moe/m5djca.mp3",
       "s+n": "https://files.catbox.moe/w9doti.mp4",
-      "Love you siyam": "https://files.catbox.moe/e8ebel.mp3",
+      "টুকি": "https://files.catbox.moe/e8ebel.mp3",
       "আমি মাদিহা": "https://files.catbox.moe/9gyjwp.mp3",
       "নুনু": "https://files.catbox.moe/r5uz42.mp3"
     };
