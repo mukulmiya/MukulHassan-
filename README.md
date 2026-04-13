@@ -15,7 +15,7 @@
 
 [![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%23F70B10&size=27&lines=𝑰+𝑨𝑴+𝑼𝑫𝑨𝒀+𝑯𝑨𝑺𝑨𝑵+𝑺𝑰𝒀𝑨𝑴;+𝐀𝐆𝐄+18;+𝐀𝐃𝐔𝐋𝐓;+𝐁𝐀𝐍𝐆𝐋𝐀𝐃𝐄𝐒𝐇;+𝐖𝐎𝐑𝐊𝐈𝐍𝐆)](https://git.io/typing-svg)
 
-<table align="center" border="1" cellpadding="8" cellspacing="0">
+<table align="center" border="1" cellpadding="8" cellspacing="0">.
   <tr>
     <th>👤 Owner Name</th>
     <td>✨ Uday Hasan Siyam ✨</td>
